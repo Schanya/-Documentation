@@ -102,9 +102,9 @@ export class CategoryRepository {
       );
     }
 
-    if (!category) {
+    /* if (!category) {
       throw new NotFoundException('The client with this id does not exist');
-    }
+    }*/
 
     return category;
   }
