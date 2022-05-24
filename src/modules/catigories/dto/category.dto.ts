@@ -1,6 +1,10 @@
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Schema as MongooseSchema } from 'mongoose';
 
 export class CreateCategoryDto {
+  @IsOptional()
+  id: MongooseSchema.Types.ObjectId;
+
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -11,6 +15,9 @@ export class CreateCategoryDto {
 }
 
 export class UpdateCategoryDto {
+  @IsOptional()
+  id: MongooseSchema.Types.ObjectId;
+
   @IsOptional()
   @IsString()
   @IsNotEmpty()
