@@ -6,6 +6,9 @@ import {
   Publication,
   PublicationSchema,
 } from 'src/entities/publication.entity';
+import { PublicationController } from './publication.controller';
+import { PublicationService } from './publication.service';
+import { PublicationRepository } from './publication.repository';
 
 @Module({
   imports: [
@@ -17,8 +20,8 @@ import {
       { name: Publication.name, schema: PublicationSchema },
     ]),
   ],
-  providers: [],
-  controllers: [],
-  exports: [],
+  controllers: [PublicationController],
+  providers: [PublicationService, PublicationRepository],
+  exports: [PublicationService, PublicationRepository],
 })
 export class PublicationModule {}

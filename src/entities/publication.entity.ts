@@ -5,6 +5,8 @@ import { Category } from './category.entity';
 
 @Schema()
 export class Publication extends Document {
+  _id: MongooseSchema.Types.ObjectId;
+
   @Prop({ required: true })
   name: string;
 
@@ -14,7 +16,11 @@ export class Publication extends Document {
   @Prop({ required: true })
   code: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Category.name })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    required: true,
+    ref: Category.name,
+  })
   categoryId: MongooseSchema.Types.ObjectId;
 }
 

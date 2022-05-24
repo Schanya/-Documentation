@@ -20,6 +20,8 @@ export class CreatePublicationDto {
 }
 
 export class UpdatePublicationDto {
+  id: MongooseSchema.Types.ObjectId;
+
   @IsOptional()
   @IsString()
   @IsNotEmpty()
