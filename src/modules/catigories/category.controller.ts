@@ -25,7 +25,7 @@ export class CategoryController {
     private categoryService: CategoryService,
   ) {}
 
-  @Post('/createCategory')
+  @Post()
   async createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
     @Res() res: Response,
@@ -47,7 +47,7 @@ export class CategoryController {
     }
   }
 
-  @Get('/getCategoryById/:id')
+  @Get('/:id')
   async getCategoryById(
     @Param('id') id: MongooseSchema.Types.ObjectId,
     @Res() res: Response,
@@ -56,7 +56,7 @@ export class CategoryController {
     return res.status(HttpStatus.OK).send(category);
   }
 
-  @Get('/getCategories')
+  @Get()
   async getCategories(@Query() getQueryDto: GetQueryDto, @Res() res: Response) {
     const categories: any = await this.categoryService.getCategories(
       getQueryDto,
@@ -64,7 +64,7 @@ export class CategoryController {
     return res.status(HttpStatus.OK).send(categories);
   }
 
-  @Put('/updateCategory/:id')
+  @Put('/:id')
   async updateCategory(
     @Param('id') id: MongooseSchema.Types.ObjectId,
     @Body() updateCategoryDto: UpdateCategoryDto,

@@ -23,7 +23,6 @@ export class CategoryRepository {
   ) {
     let category = await this.getCategoryByName(Category.name);
 
-    //Probably can be removed, because this property in the entity is already unique
     if (!category) {
       throw new ConflictException('Category with such name exists!');
     }
@@ -79,7 +78,7 @@ export class CategoryRepository {
         response = {
           ok: true,
           data: [],
-          message: 'No hay categories',
+          message: 'Can not get categories',
         };
       }
       return response;
@@ -97,7 +96,7 @@ export class CategoryRepository {
       category = await this.categoryModel.findById(id).exec();
     } catch (error) {
       throw new InternalServerErrorException(
-        'The record with id does not exist' + id,
+        `The record with id: ${id} does not exist`,
         error,
       );
     }
@@ -110,18 +109,16 @@ export class CategoryRepository {
   }
 
   async getCategoryByName(name: string): Promise<Category> {
-    let category;
-
     try {
-      category = await this.categoryModel.find({ name });
+      let category: any = await this.categoryModel.find({ name });
+
+      return category;
     } catch (error) {
       throw new InternalServerErrorException(
         'Error connecting to MongoDB',
         error,
       );
     }
-
-    return category;
   }
 
   async updateCategory(
@@ -137,22 +134,19 @@ export class CategoryRepository {
       updatedAt: actualDate,
     };
 
-    let category;
-
     try {
-      category = await this.categoryModel
+      let category: any = await this.categoryModel
         .findOneAndUpdate({ _id: updateCategory.id }, updateData, { new: true })
         .session(session)
         .exec();
+
+      return category;
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      throw new InternalServerErrorException(
+        'Error trying to update product',
+        error,
+      );
     }
-
-    if (!category) {
-      throw new ConflictException('Error trying to update product');
-    }
-
-    return category;
   }
 
   async deleteCategory(
@@ -162,7 +156,9 @@ export class CategoryRepository {
     let category = await this.categoryModel.findById(id).exec();
 
     if (!category) {
-      throw new NotFoundException('The client with this id does not exist');
+      throw new NotFoundException(
+        `The client with this id: ${id} does not exist`,
+      );
     }
 
     const deleted = await this.categoryModel.findByIdAndRemove(id, { session });

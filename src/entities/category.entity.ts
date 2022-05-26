@@ -11,7 +11,10 @@ export class Category extends Document {
   @Prop({ required: true })
   code: string;
 
-  //array
+  /*Array
+ @Prop()
+  categories: Category[];
+*/
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
